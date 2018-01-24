@@ -1,5 +1,5 @@
 // V50 rf95 demo RX (SERVER) on M0 - lora feather with TFT ILI9341 Weather shield type display
-//this seems to time out sometimes
+//this seems to time out sometimes - so far not yet today
 #include <RH_RF95.h>
 #include <RHReliableDatagram.h>
 
@@ -37,7 +37,7 @@ void setup()
   pinMode(LED_BUILTIN, OUTPUT);     
   pinMode(RFM95_RST, OUTPUT);
   digitalWrite(RFM95_RST, HIGH);//reverse the HIGH to Low for 32u4 - it needs Low - High - Low
-  //Serial.println("M0 LoRa Feather Addressed RFM95 RX (server) Test v45 with TFT!");
+  Serial.println("M0 LoRa Feather Addressed RFM95 RX (server) Test v50 with TFT! and some issues");
   tft.begin(); //start the TFT instance
   delay(500);
   pinMode(RFM95_CS, OUTPUT);
@@ -58,18 +58,18 @@ void setup()
   delay(10);
   
   if (!rf95_manager.init()) {
-    //Serial.println(F("RFM95 radio init failed"));
+    Serial.println(F("RFM95 radio init failed"));
     while (1);
   }
-  //Serial.println(F("RFM95 radio init OK!"));
+  Serial.println(F("RFM95 radio init OK!"));
 
   if (!rf95.setFrequency(RF95_FREQ)) {
-    //Serial.println(F("setFrequency failed"));
+    Serial.println(F("setFrequency failed"));
   }
 
 //seems to work better without the line below
  // rf95.setTxPower(20, true);  // range from 14-20 for power, 
-    //Serial.print(F("RFM95 radio @"));  Serial.print((int)RF95_FREQ);  Serial.println(F(" MHz"));
+    Serial.print(F("RFM95 radio @"));  Serial.print((int)RF95_FREQ);  Serial.println(F(" MHz"));
 } //end setup routine
 
 
@@ -288,20 +288,20 @@ void getPackets()
               if (rf95_manager.recvfromAck(buf, &len, &from)) 
               {
                     buf[len] = 0; // zero out remaining string
-                  //  Serial.print("Message From #"); Serial.print(from);
-                   // Serial.print(", RSSI:");Serial.print(rf95.lastRssi());Serial.print(", ");Serial.println((char*)buf);
-//Serial.println((char*)buf);
- //Serial.print(buf[14]);Serial.print(buf[15]);Serial.print(".");Serial.print(buf[16]);Serial.println(buf[17]);
- //String myString = (char*)buf;
- //Serial.print("Temp: ");Serial.println(myString.substring(14, 19)); //temperature part of the string
- //Serial.print("Humid: ");Serial.println(myString.substring(22, 27)); //temperature part of the string
-// Serial.print("Status: ");Serial.println(myString.substring(10, 11)); //temperature part of the string
- //Serial.println(buf[21]);
-                    //Serial.println((char*)buf);//format of char array: "0x2: A:0   T:69.93F       H:53.02% #12"
+                    Serial.print("Message From #"); Serial.print(from);
+                    Serial.print(", RSSI:");Serial.print(rf95.lastRssi());Serial.print(", ");Serial.println((char*)buf);
+Serial.println((char*)buf);
+ Serial.print(buf[14]);Serial.print(buf[15]);Serial.print(".");Serial.print(buf[16]);Serial.println(buf[17]);
+ String myString = (char*)buf;
+ Serial.print("Temp: ");Serial.println(myString.substring(14, 19)); //temperature part of the string
+ Serial.print("Humid: ");Serial.println(myString.substring(22, 27)); //temperature part of the string
+ Serial.print("Status: ");Serial.println(myString.substring(10, 11)); //temperature part of the string
+Serial.println(buf[21]);
+                    Serial.println((char*)buf);//format of char array: "0x2: A:0   T:69.93F       H:53.02% #12"
                     
                     //Blink(LED_BUILTIN, 40, 3); //blink LED 3 times, 40ms between blinks
               if (!rf95_manager.sendtoWait(data, sizeof(data), from));// Send a reply back to the originator client
-                   // Serial.println("Sending failed (no ack)");
+                    Serial.println("Sending failed (no ack)");
               
                   
                   //int a=((buf[6] - 48)*10) + (buf[7] - 48);
