@@ -138,15 +138,17 @@ void loop()
  //send a message
     unsigned long currentMillis = millis(); //long time since transmit? Yes=transmit, no=skip and sleep
     currentMillis = currentMillis + SleepMillis; //add the sleeptime to current 
-    if (currentMillis - previousMillis >= interval){
-      transmitStatus();  
-      previousMillis = currentMillis;  // save the last time you slept
-      SleepMillis = 0;//reset sleepcount
-     } //end if
+   // if (currentMillis - previousMillis >= interval){
+    //  transmitStatus();  
+  
+   sendTest();
+   //   previousMillis = currentMillis;  // save the last time you slept
+   //   SleepMillis = 0;//reset sleepcount
+   //  } //end if
     
 
 //sleep
- sleepyMCU(); //do the sleep thing
+// sleepyMCU(); //do the sleep thing
  delay(200); // wait
  Serial.print("SleepyMCU: ");
  Serial.println(SleepMillis);
@@ -234,7 +236,34 @@ delay(500);
       }//end rf95_manager.sendtowait 
     else {
         Serial.println("Sending failed (no ack)");
-}//end transmitStatus
+        }//end else
+}//end transmitStatus ()
+
+void sendTest(){
+Serial.println("Sending to rf95_reliable_datagram_server");
+    
+  // Send a message to manager_server
+  if (manager.sendtoWait(data, sizeof(data), SERVER_ADDRESS))
+  {
+    // Now wait for a reply from the server
+    uint8_t len = sizeof(buf);
+    uint8_t from;   
+    if (manager.recvfromAckTimeout(buf, &len, 2000, &from))
+    {
+      Serial.print("got reply from : 0x");
+      Serial.print(from, HEX);
+      Serial.print(": ");
+      Serial.println((char*)buf);
+    }
+    else
+    {
+      Serial.println("No reply, is rf95_reliable_datagram_server running?");
+    }
+  }
+  else
+    Serial.println("sendtoWait failed");
+  delay(500);
+  
 }
 
 void wakeUp()
@@ -275,5 +304,4 @@ void sleepyMCU()
 }
 
 //end program
-
 
