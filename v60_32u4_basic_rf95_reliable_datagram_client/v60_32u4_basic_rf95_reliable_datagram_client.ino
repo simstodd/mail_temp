@@ -51,7 +51,7 @@ RST - this is the Reset pin, tie to ground to manually reset the AVR, as well as
 ARef - the analog reference pin. Normally the reference voltage is the same as the chip logic voltage (3.3V) but if you 
 need an alternative analog reference, connect it to this pin and select the external AREF in your firmware. Can't go higher than 3.3V!
 
-  */
+ */
   
 #include <RHReliableDatagram.h>
 #include <RH_RF95.h>
