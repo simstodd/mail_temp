@@ -1,5 +1,11 @@
 // V63_R_datagram_M0_TFT.ino sample code with my changes rf95_reliable_datagram_server.pde
 // rf95 demo RX (SERVER) on M0 - lora feather with TFT ILI9341 Weather shield type display
+//https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module?view=all
+//https://randomnerdtutorials.com/build-an-all-in-one-esp32-weather-station-shield/
+//
+//http://www.rocketscream.com/blog/2017/08/21/the-sx1276-modules-shootout-hoperfs-rfm95w-vs-nicerfs-lora1276-c1-vs-hpdteks-hpd13/
+//https://github.com/PaulStoffregen/RadioHead/blob/master/RH_RF95.h
+//http://www.airspayce.com/mikem/arduino/RadioHead/classRHReliableDatagram.html
 // adafruit 2.4" tft lcd with touchscreen w/micro sd 
 // size 240x320
 // -*- mode: C++ -*-
